@@ -1,0 +1,14 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.tslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "cSpell.words": [
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#00684b70",
+    "titleBar.activeBackground": "#00684A",
+    "titleBar.activeForeground": "#FDFDFF"
+  },
+}
