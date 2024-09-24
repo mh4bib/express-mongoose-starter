@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qazada Invoice</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo { font-size: 24px; font-weight: bold; }
+        .barcode { font-family: 'Libre Barcode 128', cursive; font-size: 48px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .order-info { background-color: #f2f2f2; padding: 10px; margin-bottom: 20px; }
+        .totals { text-align: right; }
+        .footer { margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">QAZADA</div>
+        <div class="barcode">{{barcode}}</div>
+    </div>
+    
+    <div>www.qazada.com</div>
+
+    <div class="order-info">
+        <div>Order # {{orderNumber}}</div>
+        <div>Order Date: {{orderDate}}</div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Sold to:</th>
+            <th>Ship to:</th>
+        </tr>
+        <tr>
+            <td>
+                {{soldTo.name}}<br>
+                {{soldTo.address}}<br>
+                {{soldTo.phone}}
+            </td>
+            <td>
+                {{shipTo.name}}<br>
+                {{shipTo.address}}<br>
+                {{shipTo.phone}}
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>SKU/Size/Color</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Original Price</th>
+            <th>After Discount</th>
+            <th>Quantity</th>
+            <th>Total Amount</th>
+        </tr>
+        {{#each items}}
+        <tr>
+            <td>{{this.sku}}</td>
+            <td>{{this.description}}</td>
+            <td><img src="{{this.imageUrl}}" alt="{{this.description}}" style="width: 50px;"></td>
+            <td>{{this.originalPrice}}</td>
+            <td>{{this.afterDiscount}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.totalAmount}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <div class="totals">
+        <p>Original Price: {{originalPrice}}</p>
+        <p>After Discount: {{afterDiscount}}</p>
+        <p>VAT: {{vat}}</p>
+        <p>Shipping & Handling: {{shippingHandling}}</p>
+        <p><strong>Grand Total: {{grandTotal}}</strong></p>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for placing the order with www.qazada.com. We highly appreciate your purchase.</p>
+        <p>What happens next?</p>
+        <ol>
+            <li>Your order will be delivered in 15 to 17 working days.</li>
+            <li>Our delivery time is between 11 am till 9 pm Saturday to Thursday.</li>
+            <li>If you have any questions or concerns please contact us 00000 between 9 Am till 6 Pm Saturday to Thursday.</li>
+        </ol>
+    </div>
+</body>
+</html>
