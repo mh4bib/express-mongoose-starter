@@ -22,7 +22,7 @@ const dummyOrderData = {
       afterDiscount: 89.00,
       quantity: 2,
       totalAmount: 178.00,
-      imageUrl: 'src/assets/barcode.png'
+      imageUrl: 'src/assets/product-img.png'
     },
     {
       sku: 'A-03343-Royal Blue-54',
@@ -31,14 +31,14 @@ const dummyOrderData = {
       afterDiscount: 89.00,
       quantity: 2,
       totalAmount: 178.00,
-      imageUrl: 'src/assets/barcode.png'
+      imageUrl: 'src/assets/product-img.png'
     }
   ],
-  originalPrice: 396.00,
-  afterDiscount: 178.00,
+  originalPrice: 999.00,
+  afterDiscount: 888.00,
   vat: 0.00,
   shippingHandling: 0.00,
-  grandTotal: 178.00
+  grandTotal: 888.00
 };
 
 const getInvoice = async (res: Response): Promise<any> => {

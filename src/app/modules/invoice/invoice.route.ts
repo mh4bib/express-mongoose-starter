@@ -9,9 +9,9 @@ router.get(
 );
 
 
-router.get(
-  '/test',
-  InvoiceController.getTestPdf
-);
+// router.get(
+//   '/test',
+//   InvoiceController.getTestPdf
+// );
 
 export const InvoiceRoutes = router;

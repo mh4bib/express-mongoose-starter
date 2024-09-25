@@ -60,12 +60,12 @@ export async function generateInvoice(res: Response, data: OrderData) {
     doc.text(item.description, 42 + skuWidth, y+5, { width: descriptionWidth-10 });
 
     // Insert item image
-    doc.image(item.imageUrl, 35 + skuWidth + descriptionWidth, y+5, { width: imageWidth-10 });
+    doc.image(item.imageUrl, 35 + skuWidth + descriptionWidth, y+5, {fit: [50, 50], align: 'center', valign: 'center'});
 
-    doc.text(item.originalPrice.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth+15, y+5, { width: originalPriceWidth });
-    doc.fillColor('red').text(item.afterDiscount.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth+22, y+5, { width: discountWidth });
-    doc.fillColor('black').text(item.quantity.toString(), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth + discountWidth+30, y+5, { width: quantityWidth });
-    doc.text(item.totalAmount.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth + discountWidth + quantityWidth + 30, y+5, { width: totalWidth });
+    doc.text(item.originalPrice.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth+15, y+25, { width: originalPriceWidth });
+    doc.fillColor('red').text(item.afterDiscount.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth+22, y+25, { width: discountWidth });
+    doc.fillColor('black').text(item.quantity.toString(), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth + discountWidth+30, y+25, { width: quantityWidth });
+    doc.text(item.totalAmount.toFixed(2), 35 + skuWidth + descriptionWidth + imageWidth + originalPriceWidth + discountWidth + quantityWidth + 30, y+25, { width: totalWidth });
 
     // Draw row border
     drawRowBorders(y, cellHeight);
@@ -75,15 +75,6 @@ export async function generateInvoice(res: Response, data: OrderData) {
   function drawRowBorders(y: number, height: number) {
     doc.lineWidth(1);
     doc.rect(30, y, doc.page.width - pageMargin * 2, height).stroke();
-  }
-
-  // Check if new page is needed and add the table header again
-  function checkNewPage() {
-    if (yPosition + cellHeight > doc.page.height - 100) { // Check if the table exceeds the page
-      doc.addPage();
-      yPosition = 100; // Reset y position for new page
-      drawTableHeaders(); // Draw the table headers on the new page
-    }
   }
 
   // Function to draw table headers
@@ -102,6 +93,11 @@ export async function generateInvoice(res: Response, data: OrderData) {
 
     yPosition += 20; // Move the y position down for the next row
   }
+
+  doc.image('src/assets/qazada-logo.png', 30, 30, { width: 150 });
+  doc.image('src/assets/bar-code.png', 400, 30, { height: 30 });
+  doc.text('QZ39480', 445, 60);
+  doc.text('www.qazada.com', 422, 75);
 
   const upperTableStartY = 115;
   doc.rect(30, upperTableStartY, doc.page.width - pageMargin * 2, 45).fillAndStroke('#6E7A7C', '#6E7A7C'); // Gray background
@@ -139,7 +135,6 @@ export async function generateInvoice(res: Response, data: OrderData) {
 
   // Loop through the items and draw them on the PDF
   for (let i = 0; i < data.items.length; i++) {
-    checkNewPage(); // Check if a new page is required
     drawRow(yPosition, data.items[i]); // Draw the row for the current item
     yPosition += cellHeight; // Adjust y position for the next row
   }
@@ -153,27 +148,29 @@ export async function generateInvoice(res: Response, data: OrderData) {
 
   // Add totals
   const totalsTop = yPosition + 20;
-  doc.text('Original Price:', 430, totalsTop)
-     .text(data.originalPrice.toFixed(2), 560, totalsTop)
-     .text('After Discount:', 430, totalsTop + 20)
-     .text(data.afterDiscount.toFixed(2), 560, totalsTop + 20)
-     .text('VAT:', 430, totalsTop + 40)
-     .text(data.vat.toFixed(2), 560, totalsTop + 40)
-     .text('Shipping & Handling:', 430, totalsTop + 60)
-     .text(data.shippingHandling.toFixed(2), 560, totalsTop + 60)
-     .moveTo(430, totalsTop + 75)
-     .lineTo(590, totalsTop + 75)
-     .stroke()
-     .text('Grand Total:', 430, totalsTop + 85)
-     .text(data.grandTotal.toFixed(2), 560, totalsTop + 85);
+  doc.text('Original Price:', 410, totalsTop).moveUp()
+     .text(data.originalPrice.toFixed(2), {align:"right"})
+     .text('After Discount:', 410, totalsTop + 20).fillColor('red').moveUp()
+     .text(data.afterDiscount.toFixed(2), {align:"right"}).fillColor('black')
+     .text('VAT:', 410, totalsTop + 40).moveUp()
+     .text(data.vat.toFixed(2), {align:"right"})
+     .text('Shipping & Handling:', 410, totalsTop + 60).moveUp()
+     .text(data.shippingHandling.toFixed(2), {align:"right"})
+     .moveTo(410, totalsTop + 75)
+     .lineTo(568, totalsTop + 75)
+     .stroke('red')
+     .text('Grand Total:', 410, totalsTop + 85).moveUp().fillColor('red')
+     .text(data.grandTotal.toFixed(2), {align:"right"}).fillColor('black');
 
   // Add footer
-  doc.fontSize(10)
-     .text('Thank you for placing the order with www.qazada.com. We highly appreciate your purchase.', 50, 700)
-     .text('What happens next?', 50, 730)
-     .text('1. Your order will be delivered in 15 to 17 working days.', 70, 745)
-     .text('2. Our delivery time is between 11 am till 9 pm Saturday to Thursday.', 70, 760)
-     .text('3. If you have any questions or concerns please contact us 00000 between 9 Am till 6 Pm Saturday to Thursday.', 70, 775);
+  doc.fontSize(10).font('Helvetica-Bold')
+     .text('Thank you for placing the order with www.qazada.com. We highly appreciate your purchase.', 30, 700).font('Helvetica')
+     .text('What happens next?', 30, 730)
+     .text('1. Your order will be delivered in ', 50, 745).fillColor('red')
+     .text('15 to 17 working days.', 192, 745).fillColor('black')
+     .text('2. Our delivery time is between', 50, 760).fillColor('red')
+     .text('9 Am till 6 Pm Saturday to Thursday.', 190, 760).fillColor('black')
+     .text('3. If you have any questions or concerns please contact us 00000 between 9 Am till 6 Pm Saturday to Thursday.', 50, 775);
 
   // Finalize the PDF and end the stream
   doc.end();
