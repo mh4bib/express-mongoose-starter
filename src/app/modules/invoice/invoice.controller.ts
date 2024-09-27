@@ -47,7 +47,12 @@ const getInvoicePdf = catchAsync(async (req: Request, res: Response) => {
     await InvoiceService.getInvoice(res);
 });
 
+const getInvoiceFromSvg = catchAsync(async (req: Request, res: Response) => {
+    await InvoiceService.getInvoiceFromSvg(res);
+})
+
 export const InvoiceController = {
   // getTestPdf,
   getInvoicePdf,
+  getInvoiceFromSvg
 };

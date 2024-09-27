@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { generateInvoice } from "../../../utils/generateInvoice";
+import { generatePDFFromSVG } from "../../../utils/generatePdfFromSVG";
 
 const dummyOrderData = {
   orderNumber: 'QZ39480',
@@ -50,6 +51,20 @@ const getInvoice = async (res: Response): Promise<any> => {
   }
 };
 
+const getInvoiceFromSvg = async (res: Response): Promise<any> => {
+  try {
+    const pdfBuffer = await generatePDFFromSVG(dummyOrderData);
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+}
+
 export const InvoiceService = {
   getInvoice,
+  getInvoiceFromSvg
 };

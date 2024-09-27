@@ -8,10 +8,9 @@ router.get(
   InvoiceController.getInvoicePdf
 );
 
-
-// router.get(
-//   '/test',
-//   InvoiceController.getTestPdf
-// );
+router.get(
+  '/from-svg',
+  InvoiceController.getInvoiceFromSvg
+)
 
 export const InvoiceRoutes = router;
