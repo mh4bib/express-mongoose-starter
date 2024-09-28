@@ -74,7 +74,16 @@ function createRow(item: OrderItem, yOffset: number): string {
      y="436.28896"
      id="tspan784">dfasdfasdf</tspan></text>
      
-     
+     <image
+      width="12.009373"
+      height="17.224628"
+      preserveAspectRatio="none"
+      xlink:href="${item.imageUrl}"
+      id="image472"
+      x="71.434631"
+      y="101.9107"
+      style="display:inline"
+      inkscape:label="image" />
 
    <text
    xml:space="preserve"
@@ -127,8 +136,8 @@ function generateRows(items: OrderItem[]): string {
 export async function generatePDFFromSVG(data: OrderData): Promise<Buffer> {
   // Read the SVG template
   const template = await readFileAsync('src/templates/office21-invoice-v2.2.svg', 'utf8');
-  // console.log(template);
-  const $ = cheerio.load(template);
+
+  const $ = cheerio.load(template, { xmlMode: true });  
 
   // Update the SVG with the provided data
   $('#orderNumber').text(data.orderNumber);
@@ -149,9 +158,13 @@ export async function generatePDFFromSVG(data: OrderData): Promise<Buffer> {
 
   // Generate table rows
   const tableContainer = $('#rows');
-  // tableContainer.empty(); // Remove any existing rows
+  
   const newRows = generateRows(data.items);
+  
   tableContainer.append(newRows);
+
+  // Ensure the SVG is properly formatted
+  const updatedSvg = $.xml();
 
   // Generate PDF
   const doc = new PDFDocument({ size: 'A4' });
@@ -159,7 +172,7 @@ export async function generatePDFFromSVG(data: OrderData): Promise<Buffer> {
 
   doc.on('data', pdfBuffer.push.bind(pdfBuffer));
   
-  SVGtoPDF(doc, $('body').html(), 0, 0, {
+  SVGtoPDF(doc, updatedSvg, 0, 0, {
     preserveAspectRatio: 'xMinYMin meet'
   });
 

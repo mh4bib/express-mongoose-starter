@@ -28,12 +28,12 @@ const dummyOrderData = {
     {
       sku: 'A-03343-Royal Blue-54',
       description: 'Premium Layered Abaya',
-      originalPrice: 118.00,
+      originalPrice: 198.00,
       afterDiscount: 89.00,
       quantity: 2,
       totalAmount: 178.00,
-      imageUrl: 'src/assets/product-img.png'
-    },
+      imageUrl: 'src/assets/bar-code.png'
+    }
   ],
   originalPrice: 999.00,
   afterDiscount: 888.00,
