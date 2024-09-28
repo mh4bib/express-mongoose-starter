@@ -28,12 +28,12 @@ const dummyOrderData = {
     {
       sku: 'A-03343-Royal Blue-54',
       description: 'Premium Layered Abaya',
-      originalPrice: 198.00,
+      originalPrice: 118.00,
       afterDiscount: 89.00,
       quantity: 2,
       totalAmount: 178.00,
       imageUrl: 'src/assets/product-img.png'
-    }
+    },
   ],
   originalPrice: 999.00,
   afterDiscount: 888.00,
@@ -54,6 +54,7 @@ const getInvoice = async (res: Response): Promise<any> => {
 const getInvoiceFromSvg = async (res: Response): Promise<any> => {
   try {
     const pdfBuffer = await generatePDFFromSVG(dummyOrderData);
+    // const pdfBuffer = await generateTestTable(dummyOrderData);
     
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
