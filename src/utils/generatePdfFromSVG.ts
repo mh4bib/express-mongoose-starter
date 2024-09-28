@@ -37,6 +37,53 @@ type OrderData = {
   shippingHandling: number;
   grandTotal: number;
 }
+function wrapText(
+  text: string,
+  maxCharPerLine: number,
+  maxLine: number,
+  xOffset: number
+): string {
+  const words = text.split(' ');
+  const lines: string[] = [];
+  let currentLine = '';
+  let lineCount = 0;
+
+  // Create lines by wrapping text
+  for (const word of words) {
+    if ((currentLine + word).length > maxCharPerLine) {
+      lines.push(currentLine.trim());
+      currentLine = word + ' ';
+      lineCount++;
+      if (lineCount >= maxLine) {
+        break;
+      }
+    } else {
+      currentLine += word + ' ';
+    }
+  }
+
+  // Add remaining text to the last line
+  if (lineCount < maxLine) {
+    lines.push(currentLine.trim());
+  }
+
+  // Handle ellipsis for overflowing text
+  if (lines.length > maxLine) {
+    lines.length = maxLine;
+    lines[maxLine - 1] = lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+  } else if (lines[lines.length - 1].length > maxCharPerLine) {
+    lines[lines.length - 1] = lines[lines.length - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+  }
+
+  if (lines.length === maxLine && currentLine.length > 0 && lines[maxLine - 1].length >= maxCharPerLine) {
+    lines[maxLine - 1] = lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+  }
+
+  return lines
+    .map(line => `<tspan x="${xOffset}" dy="1.2em">${line}</tspan>`)
+    .join('');
+}
+
 
 function createRow(item: OrderItem, yOffset: number): string {
   return `
@@ -44,36 +91,26 @@ function createRow(item: OrderItem, yOffset: number): string {
      id="g492"
      inkscape:label="row"
      transform="translate(0, ${yOffset})">
-     <text
-   xml:space="preserve"
-   transform="matrix(0.26371799,0,0,0.26458786,0.34274223,-0.00188809)"
-   id="text462"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect494);display:inline;fill:#1a1a1a;stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-opacity:1"
-   inkscape:label="skuSizeColor"><tspan
-     x="50.832031"
-     y="400.8976"
-     id="tspan774">dfasdfasdfasdf</tspan><tspan
-     x="50.832031"
-     y="419.23098"
-     id="tspan776">asdfasdfasdfas</tspan><tspan
-     x="50.832031"
-     y="437.56435"
-     id="tspan778">dfsdafasdfas</tspan></text><text
-   xml:space="preserve"
-   transform="matrix(0.26371799,0,0,0.26458786,0.34274223,-0.00188809)"
-   id="text470"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect496);display:inline;fill:#1a1a1a;stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-opacity:1"
-   inkscape:label="description"><tspan
-     x="168.79297"
-     y="399.62221"
-     id="tspan780">ddddddddfa</tspan><tspan
-     x="168.79297"
-     y="417.95558"
-     id="tspan782">sdfsdafasdf </tspan><tspan
-     x="168.79297"
-     y="436.28896"
-     id="tspan784">dfasdfasdf</tspan></text>
-     
+  <text
+    xml:space="preserve"
+    style="font-weight:normal;font-size:3.88056px;font-family:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.2"
+    x="14.5"
+    y="102"
+    id="sku"
+    inkscape:label="sku">
+    ${wrapText(item.sku, 18, 3, 14.5)}
+   </text>
+
+   <text
+    xml:space="preserve"
+    style="font-weight:normal;font-size:3.88056px;font-family:sans-serif;text-align:start;text-anchor:start;fill:#000000;stroke-width:0.2"
+    x="45"
+    y="102"
+    id="description"
+    inkscape:label="sku">
+    ${wrapText(item.description, 11, 3, 45)}
+   </text>
+    
      <image
       width="12.009373"
       height="17.224628"
