@@ -7,44 +7,14 @@ import { promisify } from 'util';
 
 const readFileAsync = promisify(fs.readFile);
 
-type OrderItem = {
-  sku: string;
-  description: string;
-  originalPrice: number;
-  afterDiscount: number;
-  quantity: number;
-  totalAmount: number;
-  imageUrl: string;
-}
-
-type OrderData = {
-  orderNumber: string;
-  orderDate: string;
-  soldTo: {
-    name: string;
-    address: string;
-    postalCode: string;
-  };
-  shipTo: {
-    name: string;
-    address: string;
-    postalCode: string;
-  };
-  items: OrderItem[];
-  originalPrice: number;
-  afterDiscount: number;
-  vat: number;
-  shippingHandling: number;
-  grandTotal: number;
-}
 function wrapText(
-  text: string,
-  maxCharPerLine: number,
-  maxLine: number,
-  xOffset: number
-): string {
+  text,
+  maxCharPerLine,
+  maxLine,
+  xOffset,
+) {
   const words = text.split(' ');
-  const lines: string[] = [];
+  const lines = [];
   let currentLine = '';
   let lineCount = 0;
 
@@ -85,7 +55,7 @@ function wrapText(
 }
 
 
-function createRow(item: OrderItem, yOffset: number): string {
+function createRow(item, yOffset) {
   return `
     <g
      id="g492"
@@ -170,15 +140,15 @@ function createRow(item: OrderItem, yOffset: number): string {
   `;
 }
 
-function generateRows(items: OrderItem[]): string {
+function generateRows(items){
   return items.map((item, index) => createRow(item, index * 18.84714)).join('');
 }
 
-export async function generatePDFFromSVG(data: OrderData): Promise<Buffer> {
+export async function generateOrderInvoice(data, templateName) {
   // Read the SVG template
-  const template = await readFileAsync('src/templates/office21-invoice-v2.2.svg', 'utf8');
+  const template = await readFileAsync(`src/templates/${templateName}.svg`, 'utf8');
 
-  const $ = cheerio.load(template, { xmlMode: true });  
+  const $ = cheerio.load(template, { xmlMode: true });
 
   // Update the SVG with the provided data
   $('#orderNumber').text(data.orderNumber);
@@ -209,7 +179,7 @@ export async function generatePDFFromSVG(data: OrderData): Promise<Buffer> {
 
   // Generate PDF
   const doc = new PDFDocument({ size: 'A4' });
-  const pdfBuffer: Buffer[] = [];
+  const pdfBuffer = [];
 
   doc.on('data', pdfBuffer.push.bind(pdfBuffer));
   

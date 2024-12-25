@@ -1,6 +1,6 @@
-import { Response } from "express";
-import { generateInvoice } from "../../../utils/generateInvoice";
-import { generatePDFFromSVG } from "../../../utils/generatePdfFromSVG";
+import { Response } from 'express';
+import { generateInvoice } from '../../../utils/generateInvoice';
+import { generateOrderInvoice } from '../../../utils/generateOrderInvoice';
 
 const dummyOrderData = {
   orderNumber: 'QZ39480',
@@ -8,38 +8,218 @@ const dummyOrderData = {
   soldTo: {
     name: 'John Doe',
     address: '123 Main St, Anytown',
-    postalCode: '12345'
+    postalCode: '12345',
   },
   shipTo: {
     name: 'Jane Doe',
     address: '456 Elm St, Othertown',
-    postalCode: '67890'
+    postalCode: '67890',
   },
   items: [
     {
       sku: 'A-03343-Royal Blue-54',
       description: 'Premium Layered Abaya',
-      originalPrice: 198.00,
-      afterDiscount: 89.00,
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
       quantity: 2,
-      totalAmount: 178.00,
-      imageUrl: 'src/assets/product-img.png'
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
     },
     {
       sku: 'A-03343-Royal Blue-54',
       description: 'Premium Layered Abaya',
-      originalPrice: 198.00,
-      afterDiscount: 89.00,
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
       quantity: 2,
-      totalAmount: 178.00,
-      imageUrl: 'src/assets/bar-code.png'
-    }
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
+    {
+      sku: 'A-03343-Royal Blue-54',
+      description: 'Premium Layered Abaya',
+      originalPrice: 198.0,
+      afterDiscount: 89.0,
+      quantity: 2,
+      totalAmount: 178.0,
+      imageUrl: 'src/assets/product-img.png',
+    },
   ],
-  originalPrice: 999.00,
-  afterDiscount: 888.00,
-  vat: 0.00,
-  shippingHandling: 0.00,
-  grandTotal: 888.00
+  originalPrice: 999.0,
+  afterDiscount: 888.0,
+  vat: 0.0,
+  shippingHandling: 0.0,
+  grandTotal: 888.0,
 };
 
 const getInvoice = async (res: Response): Promise<any> => {
@@ -51,11 +231,31 @@ const getInvoice = async (res: Response): Promise<any> => {
   }
 };
 
-const getInvoiceFromSvg = async (res: Response): Promise<any> => {
+// const getInvoiceFromSvg = async (res: Response): Promise<any> => {
+//   try {
+//     const pdfBuffer = await generateOrderInvoice(
+//       dummyOrderData,
+//       'invoice-english'
+//     );
+//     // const pdfBuffer = await generateTestTable(dummyOrderData);
+
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+//     res.send(pdfBuffer);
+//   } catch (error) {
+//     console.error('Error generating PDF:', error);
+//     res.status(500).send('Error generating PDF');
+//   }
+// };
+
+export const getInvoiceFromSvg = async (res: Response): Promise<any> => {
   try {
-    const pdfBuffer = await generatePDFFromSVG(dummyOrderData);
-    // const pdfBuffer = await generateTestTable(dummyOrderData);
-    
+    const pdfBuffer = await generateOrderInvoice(
+      dummyOrderData,
+      'invoice-english',
+      'invoice-english-2nd-page'
+    );
+
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
     res.send(pdfBuffer);
@@ -63,9 +263,9 @@ const getInvoiceFromSvg = async (res: Response): Promise<any> => {
     console.error('Error generating PDF:', error);
     res.status(500).send('Error generating PDF');
   }
-}
+};
 
 export const InvoiceService = {
   getInvoice,
-  getInvoiceFromSvg
+  getInvoiceFromSvg,
 };

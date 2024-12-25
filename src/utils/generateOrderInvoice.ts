@@ -4,7 +4,6 @@ import PDFDocument from 'pdfkit';
 import SVGtoPDF from 'svg-to-pdfkit';
 import { promisify } from 'util';
 
-
 const readFileAsync = promisify(fs.readFile);
 
 type OrderItem = {
@@ -15,7 +14,7 @@ type OrderItem = {
   quantity: number;
   totalAmount: number;
   imageUrl: string;
-}
+};
 
 type OrderData = {
   orderNumber: string;
@@ -36,7 +35,7 @@ type OrderData = {
   vat: number;
   shippingHandling: number;
   grandTotal: number;
-}
+};
 function wrapText(
   text: string,
   maxCharPerLine: number,
@@ -70,20 +69,26 @@ function wrapText(
   // Handle ellipsis for overflowing text
   if (lines.length > maxLine) {
     lines.length = maxLine;
-    lines[maxLine - 1] = lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+    lines[maxLine - 1] =
+      lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
   } else if (lines[lines.length - 1].length > maxCharPerLine) {
-    lines[lines.length - 1] = lines[lines.length - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+    lines[lines.length - 1] =
+      lines[lines.length - 1].slice(0, maxCharPerLine - 3).trim() + '...';
   }
 
-  if (lines.length === maxLine && currentLine.length > 0 && lines[maxLine - 1].length >= maxCharPerLine) {
-    lines[maxLine - 1] = lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
+  if (
+    lines.length === maxLine &&
+    currentLine.length > 0 &&
+    lines[maxLine - 1].length >= maxCharPerLine
+  ) {
+    lines[maxLine - 1] =
+      lines[maxLine - 1].slice(0, maxCharPerLine - 3).trim() + '...';
   }
 
   return lines
     .map(line => `<tspan x="${xOffset}" dy="1.2em">${line}</tspan>`)
     .join('');
 }
-
 
 function createRow(item: OrderItem, yOffset: number): string {
   return `
@@ -174,52 +179,75 @@ function generateRows(items: OrderItem[]): string {
   return items.map((item, index) => createRow(item, index * 18.84714)).join('');
 }
 
-export async function generateOrderInvoice(data: OrderData, templateName: string): Promise<Buffer> {
-  // Read the SVG template
-  const template = await readFileAsync(`src/templates/${templateName}.svg`, 'utf8');
+function splitIntoPages(
+  items: OrderItem[],
+  rowsPerPage: number
+): OrderItem[][] {
+  const pages = [];
+  for (let i = 0; i < items.length; i += rowsPerPage) {
+    pages.push(items.slice(i, i + rowsPerPage));
+  }
+  return pages;
+}
 
-  const $ = cheerio.load(template, { xmlMode: true });
+export async function generateOrderInvoice(
+  data: OrderData,
+  firstPageTemplateName: string,
+  otherPagesTemplateName: string
+): Promise<Buffer> {
+  const firstPageTemplate = await readFileAsync(
+    `src/templates/${firstPageTemplateName}.svg`,
+    'utf8'
+  );
+  const otherPagesTemplate = await readFileAsync(
+    `src/templates/${otherPagesTemplateName}.svg`,
+    'utf8'
+  );
 
-  // Update the SVG with the provided data
-  $('#orderNumber').text(data.orderNumber);
-  $('#orderDate').text(data.orderDate);
-  $('#soldToName').text(data.soldTo.name);
-  $('#soldToAddress').text(data.soldTo.address);
-  $('#soldToPostcode').text(data.soldTo.postalCode);
-  $('#shipToName').text(data.shipTo.name);
-  $('#shipToAddress').text(data.shipTo.address);
-  $('#shipToPostcode').text(data.shipTo.postalCode);
+  // Load the first page template
+  const firstPage = cheerio.load(firstPageTemplate, { xmlMode: true });
 
-  // Update totals
-  $('#originalPrice').text(data.originalPrice.toFixed(2));
-  $('#afterDiscount').text(data.afterDiscount.toFixed(2));
-  $('#vat').text(data.vat.toFixed(2));
-  $('#shippingHandling').text(data.shippingHandling.toFixed(2));
-  $('#grandTotal').text(data.grandTotal.toFixed(2));
+  // Populate static information for the first page
+  firstPage('#orderNumber').text(data.orderNumber);
+  firstPage('#orderDate').text(data.orderDate);
+  firstPage('#soldToName').text(data.soldTo.name);
+  firstPage('#soldToAddress').text(data.soldTo.address);
+  firstPage('#soldToPostcode').text(data.soldTo.postalCode);
+  firstPage('#shipToName').text(data.shipTo.name);
+  firstPage('#shipToAddress').text(data.shipTo.address);
+  firstPage('#shipToPostcode').text(data.shipTo.postalCode);
 
-  // Generate table rows
-  const tableContainer = $('#rows');
-  
-  const newRows = generateRows(data.items);
-  
-  tableContainer.append(newRows);
-
-  // Ensure the SVG is properly formatted
-  const updatedSvg = $.xml();
+  // Split items for the first page and other pages
+  const firstPageRows = data.items.slice(0, 10); // Up to 9 rows for the first page
+  const remainingItems = data.items.slice(10); // Items for subsequent pages
+  const otherPagesChunks = splitIntoPages(remainingItems, 14); // Up to 14 rows per subsequent page
 
   // Generate PDF
   const doc = new PDFDocument({ size: 'A4' });
   const pdfBuffer: Buffer[] = [];
-
   doc.on('data', pdfBuffer.push.bind(pdfBuffer));
-  
-  SVGtoPDF(doc, updatedSvg, 0, 0, {
-    preserveAspectRatio: 'xMinYMin meet'
+
+  // Generate the first page
+  const firstPageTableRows = generateRows(firstPageRows);
+  firstPage('#rows').html(firstPageTableRows);
+  SVGtoPDF(doc, firstPage.xml(), 0, 0, {
+    preserveAspectRatio: 'xMinYMin meet',
   });
+
+  // Generate subsequent pages
+  for (const pageItems of otherPagesChunks) {
+    doc.addPage();
+    const otherPage = cheerio.load(otherPagesTemplate, { xmlMode: true });
+    const otherPageTableRows = generateRows(pageItems);
+    otherPage('#rows').html(otherPageTableRows);
+    SVGtoPDF(doc, otherPage.xml(), 0, 0, {
+      preserveAspectRatio: 'xMinYMin meet',
+    });
+  }
 
   doc.end();
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     doc.on('end', () => {
       resolve(Buffer.concat(pdfBuffer));
     });
