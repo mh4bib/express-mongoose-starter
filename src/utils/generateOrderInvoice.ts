@@ -167,12 +167,118 @@ function createRow(item: OrderItem, yOffset: number): string {
      id="tspan919"
      style="text-align:end;text-anchor:end;stroke-width:0.2"
      x="194.1713"
-     y="111.24982">${item.totalAmount.toFixed(2)}</tspan></text><path
+     y="111.24982">${item.totalAmount.toFixed(2)}</tspan></text>
+  <path
    id="path490"
    style="display:inline;fill:none;stroke:#6e7a7c;stroke-width:0.399413;stroke-dasharray:none;stroke-opacity:1"
    d="M 166.95167,101.15196 V 119.9991 M 145.85414,101.15196 V 119.9991 M 114.73527,101.15196 V 119.9991 M 85.726212,101.15196 V 119.9991 M 68.848273,101.15196 V 119.9991 M 43.531366,101.15196 v 18.84701 M 12.383494,101.04692 H 197.26903 V 119.9991 H 12.383494 Z"
-   inkscape:label="border" /></g>
+   inkscape:label="border" />
+   </g>
   `;
+}
+
+function generateCalculationRow1(yOffset: number): string {
+  return `<g
+   id="g492"
+   inkscape:label="row"
+   transform="translate(0, ${yOffset})">
+
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="163.89482"
+   y="108.94336"
+   id="text8936"><tspan
+     id="tspan8934"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:end;text-anchor:end;stroke-width:0.4"
+     x="163.89482"
+     y="108.94336">Oginal Price:</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="196.34291"
+   y="109.08092"
+   id="text8940"><tspan
+     id="tspan134"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
+     x="196.34291"
+     y="109.08092">332.33</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="163.89482"
+   y="117.83095"
+   id="text9105"><tspan
+     id="tspan9103"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:end;text-anchor:end;stroke-width:0.4"
+     x="163.89482"
+     y="117.83095">After Discount:</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#d40000;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="196.34291"
+   y="117.7989"
+   id="text9109"><tspan
+     id="tspan139"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d40000;stroke-width:0.4"
+     x="196.34291"
+     y="117.7989">332.33</tspan></text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="163.75418"
+   y="126.73022"
+   id="text9113"><tspan
+     id="tspan9111"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:end;text-anchor:end;stroke-width:0.4"
+     x="163.75418"
+     y="126.73022">VAT:</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="196.19063"
+   y="126.71421"
+   id="text9117"><tspan
+     id="vat"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
+     x="196.19063"
+     y="126.71421">00</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="163.75418"
+   y="135.61783"
+   id="text9121"><tspan
+     id="tspan9119"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:end;text-anchor:end;stroke-width:0.4"
+     x="163.75418"
+     y="135.61783">Shipping &amp; Handling:</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="196.20227"
+   y="135.60231"
+   id="text9125"><tspan
+     id="shippingHandling"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
+     x="196.20227"
+     y="135.60231">332.33</tspan></text><path
+   style="fill:none;stroke:#e34234;stroke-width:0.396292;stroke-dasharray:none;stroke-opacity:1"
+   d="m 123.2334,141.73068 h 72.77874"
+   id="path9127" /><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="163.75418"
+   y="149.86145"
+   id="text15013"><tspan
+     id="tspan15011"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-align:end;text-anchor:end;stroke-width:0.4"
+     x="163.75418"
+     y="149.86145">Grand Total:</tspan></text><text
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#d40000;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
+   x="196.1557"
+   y="149.86145"
+   id="text15017"><tspan
+     id="grandTotal"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d40000;stroke-width:0.4"
+     x="196.1557"
+     y="149.86145">178.00</tspan></text></g>
+`;
 }
 
 function generateRows(items: OrderItem[]): string {
@@ -234,13 +340,58 @@ export async function generateOrderInvoice(
     preserveAspectRatio: 'xMinYMin meet',
   });
 
+  let lastPage = firstPage;
+
+  // Calculate how many rows are left on the last page
+  const remainingRows =
+    remainingItems.length > 0
+      ? 14 - (remainingItems.length % 14)
+      : 10 - (firstPageRows.length % 10);
+
   // Generate subsequent pages
   for (const pageItems of otherPagesChunks) {
     doc.addPage();
     const otherPage = cheerio.load(otherPagesTemplate, { xmlMode: true });
     const otherPageTableRows = generateRows(pageItems);
     otherPage('#rows').html(otherPageTableRows);
-    SVGtoPDF(doc, otherPage.xml(), 0, 0, {
+
+    lastPage = otherPage;
+
+    // Add calculation row
+    // otherPage('#rows').append(
+    //   generateCalculationRow1(pageItems.length * 18.84714)
+    // );
+
+    if (
+      otherPagesChunks.indexOf(pageItems) !==
+      otherPagesChunks.length - 1 // Not the last page
+    ) {
+      SVGtoPDF(doc, otherPage.xml(), 0, 0, {
+        preserveAspectRatio: 'xMinYMin meet',
+      });
+    } else if (remainingRows <= 2) {
+      // Last page with 2 or fewer rows
+      SVGtoPDF(doc, otherPage.xml(), 0, 0, {
+        preserveAspectRatio: 'xMinYMin meet',
+      });
+    }
+  }
+
+  if (remainingRows > 2) {
+    const yOffset =
+      remainingItems.length > 0
+        ? remainingItems.length % 14
+        : firstPageRows.length % 10;
+
+    lastPage('#rows').append(generateCalculationRow1(yOffset * 18.84714));
+    SVGtoPDF(doc, lastPage.xml(), 0, 0, {
+      preserveAspectRatio: 'xMinYMin meet',
+    });
+  } else {
+    doc.addPage();
+    const lastPage = cheerio.load(otherPagesTemplate, { xmlMode: true });
+    lastPage('#rows').append(generateCalculationRow1(0));
+    SVGtoPDF(doc, lastPage.xml(), 0, 0, {
       preserveAspectRatio: 'xMinYMin meet',
     });
   }
