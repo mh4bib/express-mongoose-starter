@@ -345,7 +345,11 @@ export async function generateOrderInvoice(
   // Calculate how many rows are left on the last page
   const remainingRows =
     remainingItems.length > 0
-      ? 14 - (remainingItems.length % 14)
+      ? remainingItems.length % 14 === 0
+        ? 0
+        : 14 - (remainingItems.length % 14)
+      : firstPageRows.length % 10 === 0
+      ? 0
       : 10 - (firstPageRows.length % 10);
 
   // Generate subsequent pages
