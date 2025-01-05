@@ -177,7 +177,14 @@ function createRow(item: OrderItem, yOffset: number): string {
   `;
 }
 
-function generateCalculationRow1(yOffset: number): string {
+function generateCalculationRow1(
+  yOffset: number,
+  originalPrice: number,
+  discountedPrice: number,
+  vat: number,
+  shipping: number,
+  grandTotal: number
+): string {
   return `<g
    id="g492"
    inkscape:label="row"
@@ -201,7 +208,7 @@ function generateCalculationRow1(yOffset: number): string {
      id="tspan134"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
      x="196.34291"
-     y="109.08092">332.33</tspan></text><text
+     y="109.08092">${originalPrice}</tspan></text><text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
    x="163.89482"
@@ -219,7 +226,7 @@ function generateCalculationRow1(yOffset: number): string {
      id="tspan139"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d40000;stroke-width:0.4"
      x="196.34291"
-     y="117.7989">332.33</tspan></text>
+     y="117.7989">${discountedPrice}</tspan></text>
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
@@ -238,7 +245,7 @@ function generateCalculationRow1(yOffset: number): string {
      id="vat"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
      x="196.19063"
-     y="126.71421">00</tspan></text><text
+     y="126.71421">${vat}</tspan></text><text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:sans-serif;-inkscape-font-specification:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;stroke:none;stroke-width:0.4;stroke-dasharray:none;stroke-opacity:1"
    x="163.75418"
@@ -256,7 +263,7 @@ function generateCalculationRow1(yOffset: number): string {
      id="shippingHandling"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:0.4"
      x="196.20227"
-     y="135.60231">332.33</tspan></text><path
+     y="135.60231">${shipping}</tspan></text><path
    style="fill:none;stroke:#e34234;stroke-width:0.396292;stroke-dasharray:none;stroke-opacity:1"
    d="m 123.2334,141.73068 h 72.77874"
    id="path9127" /><text
@@ -277,7 +284,7 @@ function generateCalculationRow1(yOffset: number): string {
      id="grandTotal"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d40000;stroke-width:0.4"
      x="196.1557"
-     y="149.86145">178.00</tspan></text></g>
+     y="149.86145">${grandTotal}</tspan></text></g>
 `;
 }
 
@@ -387,14 +394,32 @@ export async function generateOrderInvoice(
         ? remainingItems.length % 14
         : firstPageRows.length % 10;
 
-    lastPage('#rows').append(generateCalculationRow1(yOffset * 18.84714));
+    lastPage('#rows').append(
+      generateCalculationRow1(
+        yOffset * 18.84714,
+        data.originalPrice,
+        data.afterDiscount,
+        data.vat,
+        data.shippingHandling,
+        data.grandTotal
+      )
+    );
     SVGtoPDF(doc, lastPage.xml(), 0, 0, {
       preserveAspectRatio: 'xMinYMin meet',
     });
   } else {
     doc.addPage();
     const lastPage = cheerio.load(otherPagesTemplate, { xmlMode: true });
-    lastPage('#rows').append(generateCalculationRow1(0));
+    lastPage('#rows').append(
+      generateCalculationRow1(
+        0,
+        data.originalPrice,
+        data.afterDiscount,
+        data.vat,
+        data.shippingHandling,
+        data.grandTotal
+      )
+    );
     SVGtoPDF(doc, lastPage.xml(), 0, 0, {
       preserveAspectRatio: 'xMinYMin meet',
     });
